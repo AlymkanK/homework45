@@ -22,7 +22,7 @@
             <p class="card-text">Дата создания: {{ task.created_at|date:'Y-m-d' }}</p>
             <p class="card-text">Cтатус: {{ task.get_status_display }}</p>
             <p>Теги:
-                {% for tag in article.tags.all %}
+                {% for tag in task.tags.all %}
                     {{ tag.name }}{% if forloop.last %}. {% else %}, {% endif %}
                     {% empty %}
                     Нет ни одного тега

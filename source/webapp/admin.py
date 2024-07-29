@@ -8,7 +8,7 @@ from source.webapp.models.task import Task
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'author', 'created_at']
     list_display_links = ['id', 'title']
-    list_filter = ['author']
+    list_filter = []
     search_fields = ['title', 'content']
     fields = ['title', 'author', 'content', 'created_at', 'updated_at']
     readonly_fields = ['created_at', 'updated_at']

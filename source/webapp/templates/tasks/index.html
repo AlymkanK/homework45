@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Articles</title>
+    <title>Tasks</title>
 {% endblock %}
 
 {% block content %}
@@ -12,14 +12,14 @@
     </form>
     <br>
     <div class="row">
-        {% for article in articles %}
+        {% for task in tasks %}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card mt-3" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ article.title }}</h5>
+                        <h5 class="card-title">{{ task.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">{{ article.author }}</h6>
                         <p class="card-text">
-                            {% for tag in article.tags.all %}
+                            {% for tag in task.tags.all %}
                                 {{ tag.name }}{% if forloop.last %}. {% else %}, {% endif %}
                                 {% empty %}
                                 Нет ни одного тега
@@ -29,10 +29,14 @@
                         <div class="btn-group" role="group">
                             <a href="{{ task.get_absolute_url }}" class="btn btn-primary"><i
                                     class="bi bi-blockquote-right"></i></a>
-                            <a href="{% url "webapp:update_task" article.pk %}"
-                               class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{% url "webapp:delete_task" article.pk %}" class="btn btn-primary"><i
+                            {% if perms.webapp.change_task or request.user == task.author %}
+                                <a href="{% url "webapp:update_task" task.pk %}"
+                                    class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            {% if perms.webapp.delete_task %}
+                                <a href="{% url "webapp:delete_task" task.pk %}" class="btn btn-primary"><i
                                     class="bi bi-trash3"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
