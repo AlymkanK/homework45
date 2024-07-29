@@ -54,6 +54,10 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
     template_name = "tasks/create_task.html"
     form_class = TaskForm
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 class TaskDetailView(DetailView):
     template_name = "tasks/task_detail.html"
@@ -69,9 +73,16 @@ class UpdateTaskView(UpdateView):
     template_name = "tasks/update_task.html"
     form_class = TaskForm
     model = Task
+    permission_required = 'webapp/change_task'
 
+    def has_permission(self):
+        return super().has_permission() or self.request.user == self.get_object().author
 
 class DeleteTaskView(DeleteView):
     template_name = "tasks/delete_task.html"
     model = Task
     success_url = reverse_lazy("webapp:tasks")
+    permission_required = 'webapp.delete_task'
+
+    def has_permission(self):
+        return super().has_permission() or self.request.user == self.get_object().author

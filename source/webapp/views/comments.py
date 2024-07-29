@@ -19,9 +19,6 @@ class CreateCommentView(CreateView):
         comment.save()
         return redirect(article.get_absolute_url())
 
-    # def get_success_url(self):
-    #     return reverse("webapp:article_detail", kwargs={"pk": self.object.article.pk})
-
 
 class UpdateCommentView(UpdateView):
     template_name = "comments/update_comment.html"
